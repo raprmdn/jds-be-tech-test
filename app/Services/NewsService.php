@@ -34,11 +34,12 @@ class NewsService
         return $this->newsRepository->create($attributes);
     }
 
+    /**
+     * @throws CustomException
+     */
     public function update(News $news, array $attributes): News
     {
-        if (auth()->id() !== $news->user_id) {
-            throw CustomException::unauthorized();
-        }
+        $this->authorize($news);
 
         $attributes['excerpt'] = \Str::limit($attributes['content']);
         if (isset($attributes['thumbnail'])) {
@@ -46,5 +47,30 @@ class NewsService
         }
 
         return $this->newsRepository->update($news, $attributes);
+    }
+
+    public function show(News $news)
+    {
+        return $this->newsRepository->show($news);
+    }
+
+    /**
+     * @throws CustomException
+     */
+    public function delete(News $news): void
+    {
+        $this->authorize($news);
+
+        $this->newsRepository->delete($news);
+    }
+
+    /**
+     * @throws CustomException
+     */
+    private function authorize(News $news): void
+    {
+        if (auth()->id() !== $news->user_id) {
+            throw CustomException::unauthorized();
+        }
     }
 }

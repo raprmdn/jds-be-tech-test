@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         ])->syncRoles('Administrator');
 
         User::create([
-            'name' => 'reader',
+            'name' => 'Reader',
             'email' => 'reader@reader.com',
             'password' => bcrypt('123123123'),
             'email_verified_at' => now(),

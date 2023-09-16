@@ -16,5 +16,11 @@ Route::middleware('auth:api')->group(function () {
         ->middleware('permission:CREATE.NEWS');
     Route::put('/news/{news:slug}', [\App\Http\Controllers\NewsController::class, 'update'])
         ->middleware('permission:EDIT.NEWS');
+    Route::delete('/news/{news:slug}', [\App\Http\Controllers\NewsController::class, 'destroy'])
+        ->middleware('permission:DELETE.NEWS');
+
+    Route::post('/news/{news:slug}/comments', \App\Http\Controllers\CommentController::class);
 
 });
+
+Route::get('/news/{news:slug}', [\App\Http\Controllers\NewsController::class, 'show']);

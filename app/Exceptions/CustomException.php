@@ -16,4 +16,9 @@ class CustomException extends Exception
         return new static('You are not authorized to access this resource.', 403);
     }
 
+    public static function commentIsNotParent(): static
+    {
+        return new static('The comment you are trying to reply to is not a parent comment.', 422);
+    }
+
 }

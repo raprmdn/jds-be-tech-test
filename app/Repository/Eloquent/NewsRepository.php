@@ -53,4 +53,23 @@ class NewsRepository implements NewsRepositoryInterface
         return $news->load('thumbnail');
     }
 
+    public function show(News $news): News
+    {
+        return $news->load([
+            'thumbnail',
+            'user',
+            'comments' => function ($query) {
+                $query->orderBy('created_at', 'desc')->isParent()->with([
+                    'user',
+                    'replies' => fn ($query)  => $query->with('user')
+                ]);
+            },
+        ]);
+    }
+
+    public function delete(News $news): void
+    {
+        $news->delete();
+    }
+
 }

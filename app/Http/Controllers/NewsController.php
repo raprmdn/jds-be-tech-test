@@ -34,13 +34,38 @@ class NewsController extends Controller
     /**
      * @throws CustomException
      */
-    public function update(NewsUpdateRequest $request, News $news)
+    public function update(News $news, NewsUpdateRequest $request)
     {
         $news = $this->newsService->update($news, $request->validated());
 
         return new ApiSuccessResponse(
             'News updated successfully.',
             new NewsResource($news),
+            200,
+        );
+    }
+
+    public function show(News $news)
+    {
+        $news = $this->newsService->show($news);
+
+        return new ApiSuccessResponse(
+            'News retrieved successfully.',
+            new NewsResource($news),
+            200,
+        );
+    }
+
+    /**
+     * @throws CustomException
+     */
+    public function destroy(News $news)
+    {
+        $this->newsService->delete($news);
+
+        return new ApiSuccessResponse(
+            'News deleted successfully.',
+            null,
             200,
         );
     }

@@ -26,6 +26,9 @@ class NewsResource extends JsonResource
             'author' => $this->whenLoaded('user', function () {
                 return new UserResource($this->user);
             }),
+            'comments' => $this->whenLoaded('comments', function () {
+                return CommentResource::collection($this->comments);
+            }),
             'created_at' => [
                 'formatted' => $this->created_at->diffForHumans(),
                 'date' => $this->created_at->format('d F Y, H:i:s'),
