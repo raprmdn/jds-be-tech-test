@@ -34,6 +34,35 @@ class Handler extends ExceptionHandler
                     ], $e->getCode());
                 }
 
+                if ($e instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => $e->getMessage(),
+                    ], 403);
+                }
+
+                if ($e instanceof \Illuminate\Auth\AuthenticationException) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => $e->getMessage(),
+                    ], 401);
+                }
+
+                if ($e instanceof \Illuminate\Validation\ValidationException) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => $e->getMessage(),
+                        'errors' => $e->errors(),
+                    ], 422);
+                }
+
+                if ($e instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => $e->getMessage(),
+                    ], 404);
+                }
+
                 $res = [
                     'success' => false,
                     'message' => $e->getMessage(),

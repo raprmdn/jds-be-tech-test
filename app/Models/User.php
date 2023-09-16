@@ -55,4 +55,14 @@ class User extends Authenticatable
             $user->syncRoles('Reader');
         });
     }
+
+    public function news(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(News::class, 'user_id');
+    }
+
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Comment::class, 'user_id');
+    }
 }
