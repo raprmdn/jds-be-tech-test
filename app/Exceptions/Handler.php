@@ -24,15 +24,38 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->renderable(function (CustomException $e, Request $request) {
+        $this->renderable(function (\Throwable $e, Request $request) {
             if ($request->is('api/*')) {
-                return response()->json([
+
+                if ($e instanceof CustomException) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => $e->getMessage(),
+                    ], $e->getCode());
+                }
+
+                $res = [
                     'success' => false,
                     'message' => $e->getMessage(),
-                ], $e->getCode());
+                ];
+
+                if (config('app.debug')) {
+                    $res['error'] = [
+                        'message' => $e->getMessage(),
+                        'exception' => get_class($e),
+                        'file' => $e->getFile(),
+                        'line' => $e->getLine(),
+                        'trace' => collect($e->getTrace())->map(function ($trace) {
+                            return \Arr::except($trace, ['args']);
+                        })->all(),
+                    ];
+                }
+
+                return response()->json($res, $e->getCode() ?: 500);
             }
 
             return parent::render($request, $e);
         });
+
     }
 }
