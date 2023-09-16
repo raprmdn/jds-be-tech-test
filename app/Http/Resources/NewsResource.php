@@ -21,7 +21,7 @@ class NewsResource extends JsonResource
             'excerpt' => $this->excerpt,
             'content' => $this->content,
             'thumbnail' => $this->whenLoaded('thumbnail', function () {
-                return $this->thumbnail->url;
+                return $this->thumbnail->fullUrl;
             }),
             'author' => $this->whenLoaded('user', function () {
                 return new UserResource($this->user);

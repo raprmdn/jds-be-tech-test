@@ -31,4 +31,26 @@ class NewsRepository implements NewsRepositoryInterface
         return News::where('slug', $slug)->exists();
     }
 
+    public function update(News $news, array $attributes): News
+    {
+        $news->update([
+            'title' => $attributes['title'],
+            'excerpt' => $attributes['excerpt'],
+            'content' => $attributes['content'],
+        ]);
+
+        if (isset($attributes['thumbnail'])) {
+            if ($news->thumbnail) {
+                \Storage::delete($news->thumbnail->url);
+                $news->thumbnail()?->delete();
+            }
+
+            $thumbnail = new Image();
+            $thumbnail->url = $attributes['thumbnail'];
+            $news->thumbnail()->save($thumbnail);
+        }
+
+        return $news->load('thumbnail');
+    }
+
 }

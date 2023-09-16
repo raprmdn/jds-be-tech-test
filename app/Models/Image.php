@@ -19,10 +19,10 @@ class Image extends Model
         return $this->morphTo();
     }
 
-    protected function url(): Attribute
+    protected function fullUrl(): Attribute
     {
         return Attribute::make(
-            get: fn ($url) => asset('/storage/' . $url),
+            get: fn ($value, $attributes) => asset('/storage/' . $attributes['url']),
         );
     }
 }

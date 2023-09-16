@@ -14,5 +14,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/news', [\App\Http\Controllers\NewsController::class, 'store'])
         ->middleware('permission:CREATE.NEWS');
+    Route::put('/news/{news:slug}', [\App\Http\Controllers\NewsController::class, 'update'])
+        ->middleware('permission:EDIT.NEWS');
 
 });

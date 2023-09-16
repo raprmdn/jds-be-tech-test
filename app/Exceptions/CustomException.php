@@ -10,4 +10,10 @@ class CustomException extends Exception
     {
         return new static('The provided credentials are incorrect.', 401);
     }
+
+    public static function unauthorized(): static
+    {
+        return new static('You are not authorized to access this resource.', 403);
+    }
+
 }
