@@ -18,6 +18,11 @@ class NewsService
         $this->newsRepository = $newsRepository;
     }
 
+    public function index()
+    {
+        return $this->newsRepository->index();
+    }
+
     public function create(array $attributes)
     {
         $attributes['slug'] = $attributes['slug'] ?? \Str::slug($attributes['title']);

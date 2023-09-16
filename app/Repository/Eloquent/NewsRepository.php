@@ -9,6 +9,14 @@ use App\Repository\NewsRepositoryInterface;
 class NewsRepository implements NewsRepositoryInterface
 {
 
+    public function index()
+    {
+        return News::query()
+            ->with(['thumbnail', 'user'])
+            ->latest()
+            ->paginate(10);
+    }
+
     public function create(array $attributes)
     {
         $news = News::create([

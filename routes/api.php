@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', \App\Http\Controllers\Auth\LoginController::class);
 Route::post('/register', \App\Http\Controllers\Auth\RegisterController::class);
 
+Route::get('/news', [\App\Http\Controllers\NewsController::class, 'index']);
+
 Route::middleware('auth:api')->group(function () {
 
     Route::get('/me', \App\Http\Controllers\Auth\AuthenticatedController::class);

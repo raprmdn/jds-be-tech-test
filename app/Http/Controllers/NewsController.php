@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\CustomException;
 use App\Http\Requests\NewsRequest;
 use App\Http\Requests\NewsUpdateRequest;
+use App\Http\Resources\NewsCollection;
 use App\Http\Resources\NewsResource;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\News;
@@ -18,6 +19,17 @@ class NewsController extends Controller
     public function __construct(NewsService $newsService)
     {
         $this->newsService = $newsService;
+    }
+
+    public function index()
+    {
+        $news = $this->newsService->index();
+
+        return new ApiSuccessResponse(
+            'News retrieved successfully.',
+            NewsCollection::make($news)->response()->getData(true),
+            200,
+        );
     }
 
     public function store(NewsRequest $request)

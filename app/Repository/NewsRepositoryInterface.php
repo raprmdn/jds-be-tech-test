@@ -6,6 +6,7 @@ use App\Models\News;
 
 interface NewsRepositoryInterface
 {
+    public function index();
     public function create(array $attributes);
     public function slugExists(string $slug);
     public function update(News $news, array $attributes);
