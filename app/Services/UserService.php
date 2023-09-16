@@ -36,4 +36,14 @@ class UserService
             'token' => $token,
         ];
     }
+
+    public function authenticatedUser(): \App\Models\User|\Illuminate\Contracts\Auth\Authenticatable|null
+    {
+        return auth()->user();
+    }
+
+    public function logout(): void
+    {
+        auth()->user()->token()->revoke();
+    }
 }

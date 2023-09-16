@@ -6,6 +6,7 @@ use App\Exceptions\CustomException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
+use App\Http\Responses\ApiSuccessResponse;
 use App\Services\UserService;
 
 class LoginController extends Controller
@@ -24,13 +25,12 @@ class LoginController extends Controller
     {
         $data = $this->userService->login($request->only(['email', 'password']));
 
-        return response()->json([
-            'success' => true,
-            'message' => 'User logged in successfully',
-            'data' => [
+        return new ApiSuccessResponse(
+            message: 'User logged in successfully',
+            data: [
                 'user' => new UserResource($data['user']),
                 'token' => $data['token'],
-            ]
-        ]);
+            ],
+        );
     }
 }
