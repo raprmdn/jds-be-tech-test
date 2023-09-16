@@ -69,7 +69,7 @@ class Handler extends ExceptionHandler
                 ];
 
                 if (config('app.debug')) {
-                    $res['error'] = [
+                    $res['errors'] = [
                         'message' => $e->getMessage(),
                         'exception' => get_class($e),
                         'file' => $e->getFile(),
@@ -80,7 +80,9 @@ class Handler extends ExceptionHandler
                     ];
                 }
 
-                return response()->json($res, $e->getCode() ?: 500);
+                $code = $e->getCode() > 599 ? 500 : ($e->getCode() ?: 500);
+
+                return response()->json($res, $code);
             }
 
             return parent::render($request, $e);

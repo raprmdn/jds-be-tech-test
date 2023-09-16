@@ -3,13 +3,13 @@
 namespace App\Services;
 
 use App\Exceptions\CustomException;
-use App\Repository\Eloquent\UserRepository;
+use App\Repository\UserRepositoryInterface;
 
 class UserService
 {
-    private UserRepository $userRepository;
+    private UserRepositoryInterface $userRepository;
 
-     public function __construct(UserRepository $userRepository)
+     public function __construct(UserRepositoryInterface $userRepository)
      {
          $this->userRepository = $userRepository;
      }

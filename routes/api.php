@@ -12,4 +12,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/me', \App\Http\Controllers\Auth\AuthenticatedController::class);
     Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class);
 
+    Route::post('/news', [\App\Http\Controllers\NewsController::class, 'store'])
+        ->middleware('permission:CREATE.NEWS');
+
 });
