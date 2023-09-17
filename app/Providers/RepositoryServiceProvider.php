@@ -25,6 +25,11 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repository\CommentRepositoryInterface::class,
             \App\Repository\Eloquent\CommentRepository::class
         );
+
+        $this->app->bind(
+            \App\Repository\NewsLogRepositoryInterface::class,
+            \App\Repository\Eloquent\NewsLogRepository::class
+        );
     }
 
     /**

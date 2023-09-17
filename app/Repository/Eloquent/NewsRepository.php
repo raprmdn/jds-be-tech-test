@@ -36,7 +36,7 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function slugExists(string $slug): bool
     {
-        return News::where('slug', $slug)->exists();
+        return News::where('slug', $slug)->withTrashed()->exists();
     }
 
     public function update(News $news, array $attributes): News
